@@ -1,10 +1,12 @@
 using System.Runtime.CompilerServices;
 using Abstractions;
+using Abstractions.Commands;
+using Abstractions.Commands.CommandsInterfaces;
 using UnityEngine;
 
 namespace Core
 {
-    public sealed class MainBuilding : MonoBehaviour, IUnitProducer, ISelectable
+    public sealed class MainBuilding : CommandExecutorBase<IProduceUnitCommand>, ISelectable
     {
        
 
@@ -26,13 +28,10 @@ namespace Core
         public EnvironmentType Type => _type;
         public Outline Outline => _outline;
         
-
-
-        public void ProduceUnit()
-        {
-            Instantiate(_unitPrefab,
+        public override void ExecuteSpecificCommand(IProduceUnitCommand command)
+            =>Instantiate(_unitPrefab,
                 new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10)),
                 Quaternion.identity, _unitsParent);
-        }
+        
     }
 }
