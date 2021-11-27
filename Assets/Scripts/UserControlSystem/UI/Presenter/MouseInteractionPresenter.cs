@@ -2,27 +2,38 @@
 using Abstractions;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UserControlSystem;
 using UserControlSystem.UI.Model;
 
-public sealed class MouseInteractionPresenter : MonoBehaviour
+namespace UserControlSystem.UI.Presenter
 {
-    [SerializeField] private Camera _camera;
-    [SerializeField] private SelectableValue _selectedObject;
-
-    private void Update()
+    public sealed class MouseInteractionPresenter : MonoBehaviour
     {
-        if (!Input.GetMouseButtonUp(0)) return;
+        [SerializeField] private Camera _camera;
+        [SerializeField] private SelectableValue _selectedObject;
+        [SerializeField] private EventSystem _eventSystem;
+
+        private void Start()
+        {
+            _eventSystem = EventSystem.current;
+        }
+
+        private void Update()
+        {
+            if (!Input.GetMouseButtonUp(0)) return;
+            if (_eventSystem.IsPointerOverGameObject()) return;
         
-        var hits = Physics.RaycastAll(_camera.ScreenPointToRay(Input.mousePosition));
+            _selectedObject.SetValue(null);
+       
         
-        if (hits.Length == 0 || EventSystem.current.IsPointerOverGameObject()) return;
         
+            var hits = Physics.RaycastAll(_camera.ScreenPointToRay(Input.mousePosition));
+            if (hits.Length == 0) return;
         
-        var selectable = hits
-            .Select(hit => hit.collider.GetComponentInParent<ISelectable>())
-            .FirstOrDefault(c => c != null);
+            var selectable = hits
+                .Select(hit => hit.collider.GetComponentInParent<ISelectable>())
+                .FirstOrDefault(c => c != null);
         
-        _selectedObject.SetValue(selectable);
+            _selectedObject.SetValue(selectable);
+        }
     }
 }
