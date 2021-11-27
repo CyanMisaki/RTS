@@ -1,0 +1,17 @@
+{
+    "name": "CommandInterfaces",
+    "rootNamespace": "",
+    "references": [
+        "GUID:7547f104c72ff434aa8bda534f06fbf0",
+        "GUID:2728968faebc67b4f9216c44328da7f6"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Core
 {
-    public sealed class Units : MonoBehaviour, ISelectable 
+    public sealed class Units : MonoBehaviour, ISelectable, IAttackable
     {
        
 
