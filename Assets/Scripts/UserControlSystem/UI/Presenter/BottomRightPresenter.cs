@@ -26,7 +26,7 @@ namespace UserControlSystem.UI.Presenter
 
             EnableButtons(_isButtonsEnabled);
 
-            _selectedValue.OnSelected += ONSelected;
+            _selectedValue.OnNewValue += ONSelected;
             ONSelected(_selectedValue.CurrentValue);
         }
 
@@ -66,7 +66,7 @@ namespace UserControlSystem.UI.Presenter
 
         private void OnDestroy()
         {
-            _selectedValue.OnSelected -= ONSelected;
+            _selectedValue.OnNewValue -= ONSelected;
             
             _move.onClick.RemoveAllListeners();
             _attack.onClick.RemoveAllListeners();

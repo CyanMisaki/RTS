@@ -14,7 +14,7 @@ namespace UserControlSystem.UI.Presenter
 
         private void Start()
         {
-            _selectableValue.OnSelected += OnSelected;
+            _selectableValue.OnNewValue += OnSelected;
         }
 
         private void OnSelected(ISelectable obj)
