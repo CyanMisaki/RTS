@@ -9,12 +9,12 @@ namespace Utils
     {
        
         public IAttackable CurrentValue { get; private set; }
-        public Action<IAttackable> OnNewAttackableObject;
+        public Action<IAttackable> OnNewValue;
         public void SetValue(IAttackable value)
         {
             if (value == CurrentValue) return;
             CurrentValue = value;
-            OnNewAttackableObject?.Invoke(value);
+            OnNewValue?.Invoke(value);
         } 
     }
 }

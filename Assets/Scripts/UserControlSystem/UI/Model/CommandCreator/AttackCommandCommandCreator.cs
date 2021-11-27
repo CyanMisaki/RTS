@@ -14,7 +14,7 @@ namespace UserControlSystem
         private Action<IAttackCommand> _creationCallback;
         
         [Inject]
-        private void Init(AttackableValue attackableObjectClicked) => attackableObjectClicked.OnNewAttackableObject += OnNewAttackableObject;
+        private void Init(AttackableValue attackableObjectClicked) => attackableObjectClicked.OnNewValue += OnNewAttackableObject;
         
         private void OnNewAttackableObject(IAttackable attackableObjectClicked)
         {
