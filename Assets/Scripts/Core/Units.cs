@@ -19,8 +19,7 @@ namespace Core
         [SerializeField] private Sprite _icon;
         [SerializeField] private string _name;
         [SerializeField] EnvironmentType _type;
-        [SerializeField]private Outline _outline;
-        
+       
         private float _health = 1000;
         public float Health => _health;
         public float MaxHealth => _maxHealth;
@@ -28,13 +27,5 @@ namespace Core
         public string Name => _name;
         public EnvironmentType Type => _type;
 
-        public Outline Outline => _outline;
-
-        private void Awake()
-        {
-            _outline = GetComponent<Outline>();
-        }
-
-        
     }
 }

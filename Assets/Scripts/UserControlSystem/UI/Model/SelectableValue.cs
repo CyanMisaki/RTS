@@ -17,28 +17,6 @@ namespace UserControlSystem.UI.Model
         {
             if (value == CurrentValue) return;
 
-            if (CurrentValue?.Outline!=null && value?.Outline!=null)
-            {
-                CurrentValue.Outline.OutlineColor = _notSelectedOutlineColor;
-                CurrentValue = value;
-                CurrentValue.Outline.OutlineColor = _selectedOutlineColor;
-            }
-            else if (CurrentValue?.Outline != null && value?.Outline == null)
-            {
-                CurrentValue.Outline.OutlineColor = _notSelectedOutlineColor;
-                CurrentValue = value;
-            }
-            else if (CurrentValue?.Outline == null && value?.Outline != null)
-            {
-                CurrentValue = value;
-                CurrentValue.Outline.OutlineColor = _selectedOutlineColor;
-            }
-            else
-            {
-                CurrentValue = value;
-            }
-                
-            
             OnSelected?.Invoke(value);
         }
     }
