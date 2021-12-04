@@ -11,7 +11,7 @@ namespace UserControlSystem.UI.Model
         
         public event Action<T> OnNewValue;
         
-        public void SetValue(T value) 
+        public virtual void SetValue(T value) 
         {
                 CurrentValue = value;
                 OnNewValue?.Invoke(value);
