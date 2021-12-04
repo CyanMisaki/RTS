@@ -130,14 +130,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1748817644}
     m_Modifications:
-    - target: {fileID: 1444842389098952517, guid: 0a76a94ed39161d44b9a1aecc226b0b7, type: 3}
-      propertyPath: m_Height
-      value: 2.18
-      objectReference: {fileID: 0}
-    - target: {fileID: 1444842389098952517, guid: 0a76a94ed39161d44b9a1aecc226b0b7, type: 3}
-      propertyPath: m_Radius
-      value: 0.8
-      objectReference: {fileID: 0}
     - target: {fileID: 5504795853791482986, guid: 0a76a94ed39161d44b9a1aecc226b0b7, type: 3}
       propertyPath: m_Name
       value: Ellen Variant

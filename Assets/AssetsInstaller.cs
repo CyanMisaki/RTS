@@ -5,7 +5,7 @@ using UserControlSystem.UI.Model;
 using Utils;
 using Zenject;
 
-[CreateAssetMenu(fileName = "AssetsInstaller", menuName = "RTS/AssetsInstaller")]
+[CreateAssetMenu(fileName = "AssetsInstaller", menuName = "Installers/AssetsInstaller")]
 public sealed class AssetsInstaller : ScriptableObjectInstaller<AssetsInstaller>
 {
     [SerializeField] private AssetsContext _legacyContext;
