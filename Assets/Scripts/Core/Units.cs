@@ -8,24 +8,22 @@ using UnityEngine;
 
 namespace Core
 {
-    public sealed class Units : MonoBehaviour, ISelectable, IAttackable
+    public sealed class Units : MonoBehaviour, ISelectable, IAttackable, IUnit
     {
-       
-
-        [SerializeField] private GameObject _unitPrefab;
-        [SerializeField] private Transform _unitsParent;
-
+      
         [SerializeField] private float _maxHealth = 1000;
         [SerializeField] private Sprite _icon;
-        [SerializeField] private string _name;
+        [SerializeField] private Transform _pivotPoint;
         [SerializeField] EnvironmentType _type;
        
-        private float _health = 1000;
+        
         public float Health => _health;
         public float MaxHealth => _maxHealth;
+        public Transform PivotPoint => _pivotPoint;
         public Sprite Icon => _icon;
-        public string Name => _name;
         public EnvironmentType Type => _type;
+        
+        private float _health = 100;
 
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Abstractions;
 using UnityEngine;
@@ -55,6 +54,7 @@ namespace UserControlSystem.UI.Presenter
                     _groundClicksRMB.SetValue(ray.origin + ray.direction * enter);
                 }
             });
+            
         }
 
         private void GetRaycastHits()

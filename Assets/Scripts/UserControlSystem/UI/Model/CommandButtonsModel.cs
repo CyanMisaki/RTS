@@ -1,12 +1,14 @@
 ﻿using System;
 using Abstractions.Commands;
 using Abstractions.Commands.CommandsInterfaces;
+using UniRx;
+using UnityEngine;
 using UserControlSystem.UI.Model.CommandCreator;
 using Zenject;
 
 namespace UserControlSystem.UI.Model
 {
-    public class CommandButtonsModel
+    public sealed class CommandButtonsModel
     {
         public event Action<ICommandExecutor> OnCommandAccepted;
         public event Action OnCommandSent;
@@ -17,32 +19,29 @@ namespace UserControlSystem.UI.Model
         [Inject] private CommandCreatorBase<IStopCommand> _stopper;
         [Inject] private CommandCreatorBase<IMoveCommand> _mover;
         [Inject] private CommandCreatorBase<IPatrolCommand> _patroller;
+        [Inject] private CommandCreatorBase<ISetRallyPointCommand> _rallyPointer;
 
         private bool _commandIsPending;
-
+        
         public void OnCommandButtonClicked(ICommandExecutor commandExecutor)
         {
             if (_commandIsPending)
             {
-                ProcessOnCancel();
+                processOnCancel();
             }
-
             _commandIsPending = true;
             OnCommandAccepted?.Invoke(commandExecutor);
 
-            _unitProducer.ProcessCommandExecutor(commandExecutor,
-                command => ExecuteCommandWrapper(commandExecutor, command));
-            _attacker.ProcessCommandExecutor(commandExecutor,
-                command => ExecuteCommandWrapper(commandExecutor, command));
-            _stopper.ProcessCommandExecutor(commandExecutor,
-                command => ExecuteCommandWrapper(commandExecutor, command));
-            _mover.ProcessCommandExecutor(commandExecutor,
-                command => ExecuteCommandWrapper(commandExecutor, command));
-            _patroller.ProcessCommandExecutor(commandExecutor,
+            _unitProducer.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command));
+            _attacker.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command));
+            _stopper.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command));
+            _mover.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command));
+            _patroller.ProcessCommandExecutor(commandExecutor, command => ExecuteCommandWrapper(commandExecutor, command));
+            _rallyPointer.ProcessCommandExecutor(commandExecutor,
                 command => ExecuteCommandWrapper(commandExecutor, command));
         }
 
-        private void ExecuteCommandWrapper(ICommandExecutor commandExecutor, object command)
+        public void ExecuteCommandWrapper(ICommandExecutor commandExecutor, object command)
         {
             commandExecutor.ExecuteCommand(command);
             _commandIsPending = false;
@@ -52,17 +51,18 @@ namespace UserControlSystem.UI.Model
         public void OnSelectionChanged()
         {
             _commandIsPending = false;
-            ProcessOnCancel();
+            processOnCancel();
         }
 
-        private void ProcessOnCancel()
+        private void processOnCancel()
         {
             _unitProducer.ProcessCancel();
             _attacker.ProcessCancel();
             _stopper.ProcessCancel();
             _mover.ProcessCancel();
             _patroller.ProcessCancel();
-            
+            _rallyPointer.ProcessCancel();
+
             OnCommandCancel?.Invoke();
         }
     }
