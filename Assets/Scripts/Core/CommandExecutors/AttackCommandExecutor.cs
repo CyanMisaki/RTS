@@ -6,9 +6,18 @@ namespace Core.CommandExecutors
 {
     public class AttackCommandExecutor : CommandExecutorBase<IAttackCommand>
     {
-        public override void ExecuteSpecificCommand(IAttackCommand command)
+        [SerializeField] private UnitMovementStop _stop;
+        [SerializeField] private Animator _animator;
+
+        private static readonly int Walk = Animator.StringToHash("Walk");
+        private static readonly int Idle = Animator.StringToHash("Idle");
+        private static readonly int Attack = Animator.StringToHash("Attack");
+
+
+        public override async void ExecuteSpecificCommand(IAttackCommand command)
         {
-            Debug.Log($"Unit attacks {command.Enemy.ToString()}");
+            //TODO attack
+            await _stop;
         }
     }
 }

@@ -8,28 +8,10 @@ using Zenject;
 
 namespace UserControlSystem
 {
-    public sealed class AttackCommandCommandCreator : CommandCreatorBase<IAttackCommand>
+    public sealed class AttackCommandCommandCreator : CancellableCommandCreatorBase<IAttackCommand, IAttackable>
     {
-        [Inject] private AssetsContext _context;
-        private Action<IAttackCommand> _creationCallback;
-        
-        [Inject]
-        private void Init(AttackableValue attackableObjectClicked) => attackableObjectClicked.OnNewValue += OnNewAttackableObject;
-        
-        private void OnNewAttackableObject(IAttackable attackableObjectClicked)
-        {
-            _creationCallback?.Invoke(_context.Inject(new AttackCommand(attackableObjectClicked)));
-            _creationCallback = null;
-        }
-        
-        public override void ProcessCancel()
-        {
-            base.ProcessCancel();
-            _creationCallback = null;
-        }
+        protected override IAttackCommand CreateCommand(IAttackable argument) => new AttackCommand(argument);
 
-        protected override void ClassSpecificCommandCreation(Action<IAttackCommand> creationCallback)
-            => _creationCallback = creationCallback;
     }
 }
 
