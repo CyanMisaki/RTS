@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Core
 {
-    public sealed class MainBuilding : CommandExecutorBase<IProduceUnitCommand>, ISelectable
+    public sealed class MainBuilding : CommandExecutorBase<IProduceUnitCommand>, ISelectable, IAttackable
     {
        
 
@@ -17,16 +17,14 @@ namespace Core
         [SerializeField] private Sprite _icon;
         [SerializeField] private string _name;
         [SerializeField] private EnvironmentType _type;
-        [SerializeField]private Outline _outline;
         
-
         private float _health = 1000;
         public float Health => _health;
         public float MaxHealth => _maxHealth;
         public Sprite Icon => _icon;
         public string Name => _name;
         public EnvironmentType Type => _type;
-        public Outline Outline => _outline;
+        
         
         public override void ExecuteSpecificCommand(IProduceUnitCommand command)
             =>Instantiate(_unitPrefab,
