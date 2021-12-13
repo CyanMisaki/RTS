@@ -3,21 +3,33 @@ using Utils;
 
 namespace Core
 {
-    public abstract class BaseAwaiter<T> : IAwaiter<T>
+    public abstract class BaseAwaiter<TAwaited> : IAwaiter<TAwaited>
     {
         private Action _continuation;
-        private T _result;
         private bool _isCompleted;
-        public bool IsCompleted { get; }
+        private TAwaited _result;
 
+        public bool IsCompleted => _isCompleted;
 
+        public TAwaited GetResult() => _result;
+        
         public void OnCompleted(Action continuation)
         {
             if (_isCompleted)
+            {
                 continuation?.Invoke();
-            else _continuation = continuation;
+            }
+            else
+            {
+                _continuation = continuation;
+            }
         }
 
-        public virtual T GetResult() => _result;
+        protected void ONWaitFinish(TAwaited result)
+        {
+            _result = result;
+            _isCompleted = true;
+            _continuation?.Invoke();
+        }
     }
 }

@@ -15,6 +15,7 @@ namespace Core
         
         private float _health = 1000;
         
+        public Vector3 RallyPoint { get; set; }
         
         
         

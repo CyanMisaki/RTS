@@ -7,7 +7,7 @@ using Zenject;
 namespace UserControlSystem.UI.Model.CommandCreator
 {
     public abstract class CancellableCommandCreatorBase<TCommand, TArgument> 
-        : CommandCreatorBase<TCommand> where TCommand : ICommand
+        : CommandCreatorBase<TCommand> where TCommand : class, ICommand
     {
         [Inject] private AssetsContext _context;
         [Inject] private IAwaitable<TArgument> _awaitableArgument;
@@ -35,11 +35,12 @@ namespace UserControlSystem.UI.Model.CommandCreator
         {
             base.ProcessCancel();
 
-            if (_ctSource == null) return;
-            
-            _ctSource.Cancel();
-            _ctSource.Dispose();
-            _ctSource = null;
+            if (_ctSource != null)
+            {
+                _ctSource.Cancel();
+                _ctSource.Dispose();
+                _ctSource = null;
+            }
         }
     }
 }

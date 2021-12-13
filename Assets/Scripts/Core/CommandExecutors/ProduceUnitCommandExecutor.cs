@@ -1,10 +1,11 @@
-﻿using System;
+﻿using System.Threading.Tasks;
 using Abstractions;
 using Abstractions.Commands;
 using Abstractions.Commands.CommandsInterfaces;
 using UniRx;
 using UnityEngine;
 using UserControlSystem.CommandRealisation;
+using Zenject;
 using Random = UnityEngine.Random;
 
 namespace Core.CommandExecutors
@@ -13,60 +14,49 @@ namespace Core.CommandExecutors
     {
         [SerializeField] private Transform _unitsParent;
         [SerializeField] private int _maxUnitsInQueue;
+        [Inject] private DiContainer _diContainer;
         
 
         private ReactiveCollection<IUnitProductionTask> _queue = new ReactiveCollection<IUnitProductionTask>();
-        private Vector3 _spawnPosition;
-        private Vector3 _rallyPoint;
         public IReadOnlyReactiveCollection<IUnitProductionTask> Queue => _queue;
-        public Vector3 RallyPoint
+        
+        
+        private void Update()
         {
-            get;
-            private set;
-        }
+            if (_queue.Count == 0)
+            {
+                return;
+            }
 
-        private void Start()
-        {
-            _spawnPosition=(new Vector3(Random.Range(-1,1),0,Random.Range(-1,1)));
-            Observable.EveryUpdate().Subscribe(_ => OnUpdate()).AddTo(this);
-        }
-
-        private void OnUpdate()
-        {
-            if (_queue.Count == 0) return;
-
-            var innerTask = (UnitProductionTask) _queue[0];
+            var innerTask = (UnitProductionTask)_queue[0];
             innerTask.TimeLeft -= Time.deltaTime;
-            if(innerTask.TimeLeft<=0)
+            if (innerTask.TimeLeft <= 0)
             {
                 RemoveTaskAtIndex(0);
-                var newUnit = Instantiate(innerTask.UnitPrefab, _spawnPosition, Quaternion.identity, _unitsParent);
-                newUnit.GetComponent<MoveCommandExecutor>().Init(_rallyPoint);
+                Instantiate(innerTask.UnitPrefab, new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10)), Quaternion.identity, _unitsParent);
             }
         }
+
         
         public void Cancel(int index) => RemoveTaskAtIndex(index);
-        
+
         private void RemoveTaskAtIndex(int index)
         {
-            for (var i = index; i < _queue.Count - 1; i++)
+            for (int i = index; i < _queue.Count - 1; i++)
             {
                 _queue[i] = _queue[i + 1];
             }
-            _queue.RemoveAt(_queue.Count-1);
+            _queue.RemoveAt(_queue.Count - 1);
         }
 
-        public void SetRallyPoint(Vector3 point)
+        public override async Task ExecuteSpecificCommand(IProduceUnitCommand command)
         {
-            _rallyPoint = point;
+            var instance = _diContainer.InstantiatePrefab(command.UnitPrefab, transform.position, Quaternion.identity, _unitsParent);
+            var queue = instance.GetComponent<ICommandsQueue>();
+            var mainBuilding = GetComponent<MainBuilding>();
+            var factionMember = instance.GetComponent<FactionMember>();
+            factionMember.SetFaction(GetComponent<FactionMember>().FactionID);
+            queue.EnqueueCommand(new MoveCommand(mainBuilding.RallyPoint));
         }
-        
-        public override void ExecuteSpecificCommand(IProduceUnitCommand command)
-        {
-            _queue.Add(new UnitProductionTask(command.ProductionTime,command.Icon,command.UnitPrefab,command.UnitName));
-        }
-
-        
-        
     }
 }
