@@ -15,5 +15,6 @@ namespace UserControlSystem.CommandRealisation
         
         [InjectAsset("Ellen Variant")] private GameObject _unitPrefab;
         public GameObject UnitPrefab => _unitPrefab;
+        
     }
 }

@@ -85,18 +85,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackerParallelnfoUpdater: {fileID: 2925549555867969190}
   _factionMemberParallelInfoUpdater: {fileID: 9148460323821595037}
---- !u!114 &1808350948
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5504795853791482986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c5cc631af9d40c6a109b2df2c02bd9f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1808350949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,7 +100,7 @@ MonoBehaviour:
   _scriptableObjectInstallers: []
   _monoInstallers:
   - {fileID: 1808350947}
-  - {fileID: 1808350948}
+  - {fileID: 7194176744034940083}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
@@ -129,18 +117,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _factionID: 1
---- !u!114 &1327002914486991870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5504795853791482986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df1c94ee992a42b495ff4d90c314dccb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!195 &1444842389098952517
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -256,6 +232,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _outlineComponents:
   - {fileID: 6196788658276697427}
+--- !u!114 &7194176744034940083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5504795853791482986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c5cc631af9d40c6a109b2df2c02bd9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7925116941723201450
 MonoBehaviour:
   m_ObjectHideFlags: 0

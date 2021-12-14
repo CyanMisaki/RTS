@@ -9,7 +9,7 @@ using UserControlSystem.CommandRealisation;
 
 namespace Core
 {
-    public sealed class Units : MonoBehaviour, ISelectable, IAttackable, IUnit, IDamageDealer
+    public sealed class Units : MonoBehaviour, ISelectable, IAttackable, IUnit, IDamageDealer, IAutomaticAttacker
     {
       
         [SerializeField] private float _maxHealth = 1000;
