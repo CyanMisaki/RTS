@@ -9,6 +9,8 @@ namespace UserControlSystem.UI.Model.CommandCreator
 {
     public class UIModelInstaller : MonoInstaller
     {
+        [SerializeField] private Sprite _ellenSprite;
+        
         public override void InstallBindings()
         {
             Container.Bind<CommandCreatorBase<IProduceUnitCommand>>()
@@ -21,8 +23,16 @@ namespace UserControlSystem.UI.Model.CommandCreator
                 .To<PatrolCommandCommandCreator>().AsTransient();
             Container.Bind<CommandCreatorBase<IStopCommand>>()
                 .To<StopCommandCommandCreator>().AsTransient();
+            Container.Bind<CommandCreatorBase<ISetRallyPointCommand>>()
+                .To<SetRallyCommandCommandCreator>().AsTransient();
             
             Container.Bind<CommandButtonsModel>().AsTransient();
+
+            Container.Bind<float>().WithId("Ellen Variant").FromInstance(5f);
+            Container.Bind<string>().WithId("Ellen Variant").FromInstance("Ellen Variant");
+            Container.Bind<Sprite>().WithId("Ellen Variant").FromInstance(_ellenSprite);
+
+            Container.Bind<BottomCenterModel>().AsSingle();
         }
     }
 }

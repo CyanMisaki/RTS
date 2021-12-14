@@ -1,6 +1,8 @@
 ﻿using System.Threading;
+using System.Threading.Tasks;
 using Abstractions.Commands;
 using Abstractions.Commands.CommandsInterfaces;
+using UniRx;
 using UnityEngine;
 using UnityEngine.AI;
 using Utils;
@@ -15,20 +17,28 @@ namespace Core.CommandExecutors
         private static readonly int Walk = Animator.StringToHash("Walk");
         private static readonly int Idle = Animator.StringToHash("Idle");
 
-        public override async void ExecuteSpecificCommand(IMoveCommand command)
+
+        public override async Task ExecuteSpecificCommand(IMoveCommand command)
         {
             GetComponent<NavMeshAgent>().destination = command.Position;
             _animator.SetTrigger(Walk);
             _stopCommandExecutor.CancellationTokenSource = new CancellationTokenSource();
             try
             {
-                await _stop.WithCancellation(_stopCommandExecutor.CancellationTokenSource.Token);
+                await _stop
+                    .WithCancellation
+                    (
+                        _stopCommandExecutor
+                            .CancellationTokenSource
+                            .Token
+                    );
             }
             catch
             {
                 GetComponent<NavMeshAgent>().isStopped = true;
                 GetComponent<NavMeshAgent>().ResetPath();
             }
+
             _stopCommandExecutor.CancellationTokenSource = null;
             _animator.SetTrigger(Idle);
         }

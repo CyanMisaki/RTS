@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Abstractions.Commands;
 using Abstractions.Commands.CommandsInterfaces;
 using UnityEngine;
@@ -9,29 +11,36 @@ namespace Core.CommandExecutors
 {
     public class PatrolCommandExecutor : CommandExecutorBase<IPatrolCommand>
     {
-        [SerializeField] private UnitMovementStop _stop;
+        [SerializeField] private UnitMovementStop _unitMovementStop;
         [SerializeField] private Animator _animator;
         [SerializeField] private StopCommandExecutor _stopCommandExecutor;
         
-        private static readonly int Walk = Animator.StringToHash("Walk");
-        private static readonly int Idle = Animator.StringToHash("Idle");
-
-       public override async void ExecuteSpecificCommand(IPatrolCommand command)
+        public override async Task ExecuteSpecificCommand(IPatrolCommand command)
         {
-            GetComponent<NavMeshAgent>().destination = command.Waypoint;
-            _animator.SetTrigger(Walk);
-            _stopCommandExecutor.CancellationTokenSource = new CancellationTokenSource();
-            try
+            var point1 = transform.position;
+            var point2 = command.Waypoint;
+            while (true)
             {
-                await _stop.WithCancellation(_stopCommandExecutor.CancellationTokenSource.Token);
+                GetComponent<NavMeshAgent>().destination = point2;
+                _animator.SetTrigger(Animator.StringToHash("Walk"));
+                _stopCommandExecutor.CancellationTokenSource = new CancellationTokenSource();
+
+                try
+                {
+                    await _unitMovementStop.WithCancellation(_stopCommandExecutor.CancellationTokenSource.Token);
+                }
+                catch
+                {
+                    GetComponent<NavMeshAgent>().isStopped = true;
+                    GetComponent<NavMeshAgent>().ResetPath();
+                    break;
+                }
+
+                (point1, point2) = (point2, point1);
             }
-            catch
-            {
-                GetComponent<NavMeshAgent>().isStopped = true;
-                GetComponent<NavMeshAgent>().ResetPath();
-            }
+
             _stopCommandExecutor.CancellationTokenSource = null;
-            _animator.SetTrigger(Idle);
+            _animator.SetTrigger(Animator.StringToHash("Idle"));
         }
     }
 }

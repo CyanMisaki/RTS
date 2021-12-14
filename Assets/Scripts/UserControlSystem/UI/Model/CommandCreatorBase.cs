@@ -3,7 +3,7 @@ using Abstractions.Commands;
 
 namespace UserControlSystem.UI.Model.CommandCreator
 {
-    public abstract class CommandCreatorBase<T> where T : ICommand
+    public abstract class CommandCreatorBase<T> where T : class, ICommand
     {
         public ICommandExecutor ProcessCommandExecutor(ICommandExecutor commandExecutor, Action<T> callback)
         {
